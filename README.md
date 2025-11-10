@@ -1,3 +1,73 @@
+## Social Mobile (Expo/React Native)
+
+**Companion app for the Social API**. This app handles auth, feed, posts, comments, and likes. It uses React Query and stores the JWT in AsyncStorage.
+
+- **Backend repo**: `../social-api` (must be running first)
+- **Auth**: Bearer JWT (`Authorization: Bearer <token>`)
+- **Auto-login**: Verifies token at `GET /users/verify` (see `components/AppProvider.tsx`)
+
+### Requirements
+- Node 18+
+- pnpm/npm/yarn
+- Expo CLI (`npm i -g expo`)
+- Android Studio (emulator) or Xcode (iOS)
+
+### Environment
+The app selects the API base URL by platform:
+- iOS: `http://localhost:8800`
+- Android emulator: `http://10.0.2.2:8800`
+- Default/web: `http://localhost:8800`
+
+If your API runs elsewhere, update `BASE_URL` in `components/AppProvider.tsx`.
+
+### Quick Start
+1) Start the API (see the API README):
+```bash
+cd ../social-api
+npm install
+npm run dev
+```
+2) Start the mobile app:
+```bash
+cd ../social-mobile
+npm install
+npx expo start
+```
+3) Press `a` for Android emulator, `i` for iOS simulator, or scan the QR code.
+
+### Authentication
+- On launch, the app reads `token` from AsyncStorage and calls `GET /users/verify`.
+- If valid, user data is cached in context and React Query.
+- To log out, remove the `token` from AsyncStorage and reset app state.
+
+### Project Structure (mobile)
+```
+components/
+  AppProvider.tsx     # Auth bootstrap + React Query provider
+  card.tsx
+  comments.tsx
+app/
+  (home)/index.tsx    # Home/feed
+  post/[id].tsx       # Post details
+  ...
+type/global.ts        # Shared app types (UserType, etc.)
+```
+
+### Useful Scripts
+```bash
+npm run start    # Expo dev server
+npm run android  # Start on Android
+npm run ios      # Start on iOS
+```
+
+### Troubleshooting
+- Android cannot reach `localhost`: use `http://10.0.2.2:8800`.
+- iOS simulator can use `http://localhost:8800`.
+- If requests fail on device, ensure your machine IP is reachable and use that IP as `BASE_URL`.
+
+### Related
+- API service: see `../social-api/README.md`
+
 # Welcome to your Expo app 👋
 
 This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
