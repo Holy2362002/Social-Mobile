@@ -1,4 +1,7 @@
 ## Social Mobile (Expo/React Native)
+Notice 
+Go to the Social Api from social-api repository
+social - api run first with nodemon filename 
 
 **Companion app for the Social API**. This app handles auth, feed, posts, comments, and likes. It uses React Query and stores the JWT in AsyncStorage.
 
